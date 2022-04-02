@@ -28,7 +28,6 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
         title: A title for the graph
     """
     from graphviz import Digraph
-    from tensorflow.keras.models import Sequential
     from tensorflow.keras.layers import (
         Activation,
         Dense,
@@ -37,7 +36,6 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
         Dropout,
         Flatten
     )
-    import json
     input_layer = 0
     hidden_layers_nr = 0
     layer_types = []
