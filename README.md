@@ -83,8 +83,7 @@ from tensorflow.keras.models import Sequential;
 from tensorflow.keras.layers import (Dense, Conv2D, Dropout, MaxPooling2D,
                                      Flatten);
 from ann_visualizer.visualize import ann_viz
-model = build_cnn_model()
-ann_viz(model, title="")
+
 
 def build_cnn_model():
   model = Sequential()
@@ -130,6 +129,10 @@ def build_cnn_model():
   model.add(Dense(10, activation="softmax"))
 
   return model
+
+
+model = build_cnn_model()
+ann_viz(model, title="")
 ```
 
 This will output:
