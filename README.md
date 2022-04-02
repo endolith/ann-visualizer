@@ -34,7 +34,7 @@ sudo apt-get install graphviz && pip3 install graphviz
 
 ```python
 
-from ann_visualizer.visualize import ann_viz;
+from ann_visualizer.visualize import ann_viz
 #Build your model here
 ann_viz(model)
 ```
@@ -49,29 +49,29 @@ ann_viz(model)
 
 ## Example ANN
 ```python
-from tensorflow.keras.models import Sequential;
-from tensorflow.keras.layers import Dense;
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 
-network = Sequential();
+network = Sequential()
         #Hidden Layer#1
 network.add(Dense(units=6,
                   activation='relu',
                   kernel_initializer='uniform',
-                  input_dim=11));
+                  input_dim=11))
 
         #Hidden Layer#2
 network.add(Dense(units=6,
                   activation='relu',
-                  kernel_initializer='uniform'));
+                  kernel_initializer='uniform'))
 
         #Exit Layer
 network.add(Dense(units=1,
                   activation='sigmoid',
-                  kernel_initializer='uniform'));
+                  kernel_initializer='uniform'))
 
-from ann_visualizer.visualize import ann_viz;
+from ann_visualizer.visualize import ann_viz
 
-ann_viz(network, title="");
+ann_viz(network, title="")
 ```
 
 This will output:
@@ -79,9 +79,9 @@ This will output:
 
 ## Example CNN
 ```python
-from tensorflow.keras.models import Sequential;
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (Dense, Conv2D, Dropout, MaxPooling2D,
-                                     Flatten);
+                                     Flatten)
 from ann_visualizer.visualize import ann_viz
 
 

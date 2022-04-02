@@ -6,7 +6,7 @@ long_description = """
     Usage:
 
 
-from ann_visualizer.visualize import ann_viz;
+from ann_visualizer.visualize import ann_viz
 #Build your model here
 ann_viz(model)
 
@@ -19,7 +19,7 @@ ann_viz(model, view=True, filename="network.gv")
  model - The Keras Sequential model
  view - If True, it opens the graph preview after executed
  filename - Where to save the graph. (.gv file format)
-""";
+"""
 
 
 setup(
