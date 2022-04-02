@@ -45,10 +45,10 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
     output_layer = 0
     for layer in model.layers:
         if layer == model.layers[0]:
-            input_layer = int(str(layer.input_shape).split(",")[1][1:-1])
+            input_layer = layer.input_shape[1]
             hidden_layers_nr += 1
             if type(layer) == Dense:
-                hidden_layers.append(int(str(layer.output_shape).split(",")[1][1:-1]))
+                hidden_layers.append(layer.output_shape[1])
                 layer_types.append("Dense")
             else:
                 hidden_layers.append(1)
@@ -64,11 +64,11 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                     layer_types.append("Activation")
         else:
             if layer == model.layers[-1]:
-                output_layer = int(str(layer.output_shape).split(",")[1][1:-1])
+                output_layer = layer.output_shape[1]
             else:
                 hidden_layers_nr += 1
                 if type(layer) == Dense:
-                    hidden_layers.append(int(str(layer.output_shape).split(",")[1][1:-1]))
+                    hidden_layers.append(layer.output_shape[1])
                     layer_types.append("Dense")
                 else:
                     hidden_layers.append(1)
@@ -96,8 +96,8 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
     with g.subgraph(name='cluster_input') as c:
         if type(model.layers[0]) == Dense:
             the_label = title+'\n\n\n\nInput Layer'
-            if int(str(model.layers[0].input_shape).split(",")[1][1:-1]) > 10:
-                the_label += " (+"+str(int(str(model.layers[0].input_shape).split(",")[1][1:-1]) - 10)+")"
+            if model.layers[0].input_shape[1] > 10:
+                the_label += " (+"+str(model.layers[0].input_shape[1] - 10)+")"
                 input_layer = nodes_up = last_layer_nodes = 10
             c.attr(color='white')
             for i in range(0, input_layer):
@@ -134,8 +134,8 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 c.attr(rank='same')
                 #If hidden_layers[i] > 10, dont include all
                 the_label = ""
-                if int(str(model.layers[i].output_shape).split(",")[1][1:-1]) > 10:
-                    the_label += " (+"+str(int(str(model.layers[i].output_shape).split(",")[1][1:-1]) - 10)+")"
+                if model.layers[i].output_shape[1] > 10:
+                    the_label += " (+"+str(model.layers[i].output_shape[1] - 10)+")"
                     hidden_layers[i] = 10
                 c.attr(labeljust="right", labelloc="b", label=the_label)
                 for j in range(0, hidden_layers[i]):
@@ -148,7 +148,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
             elif layer_types[i] == "Conv2D":
                 c.attr(style='filled', color='#5faad0')
                 n += 1
-                kernel_size = str(model.layers[i].get_config()['kernel_size']).split(',')[0][1] + "x" + str(model.layers[i].get_config()['kernel_size']).split(',')[1][1 : -1]
+                kernel_size = str(model.layers[i].get_config()['kernel_size'][0]) + "x" + str(model.layers[i].get_config()['kernel_size'][1])
                 filters = str(model.layers[i].get_config()['filters'])
                 c.node("conv_"+str(n), label="Convolutional Layer\nKernel Size: "+kernel_size+"\nFilters: "+filters, shape="square")
                 c.node(str(n), label=filters+"\nFeature Maps", shape="square")
@@ -160,7 +160,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
             elif layer_types[i] == "MaxPooling2D":
                 c.attr(color="white")
                 n += 1
-                pool_size = str(model.layers[i].get_config()['pool_size']).split(',')[0][1] + "x" + str(model.layers[i].get_config()['pool_size']).split(',')[1][1 : -1]
+                pool_size = str(model.layers[i].get_config()['pool_size'][0]) + "x" + str(model.layers[i].get_config()['pool_size'][1])
                 c.node(str(n), label="Max Pooling\nPool Size: "+pool_size, style="filled", fillcolor="#8e44ad", fontcolor="white")
                 for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
                     g.edge(str(h), str(n))
