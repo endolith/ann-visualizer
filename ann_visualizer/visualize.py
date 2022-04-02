@@ -15,6 +15,7 @@ The above copyright notice and this permission notice
 shall be included in all copies or substantial portions of the Software.
 """
 
+
 def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
     """Visualize a Sequential model.
 
@@ -90,7 +91,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
     g = Digraph('g', filename=filename)
     n = 0
     g.graph_attr.update(splines="false", nodesep='1', ranksep='2')
-    #Input Layer
+    # Input Layer
     with g.subgraph(name='cluster_input') as c:
         if type(model.layers[0]) == Dense:
             the_label = title+'\n\n\n\nInput Layer'
@@ -106,7 +107,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 c.node_attr.update(color="#2ecc71", style="filled", fontcolor="#2ecc71", shape="circle")
 
         elif type(model.layers[0]) == Conv2D:
-            #Conv2D Input visualizing
+            # Conv2D Input visualizing
             the_label = title+'\n\n\n\nInput Layer'
             c.attr(color="white", label=the_label)
             c.node_attr.update(shape="square")
@@ -130,7 +131,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
             if layer_types[i] == "Dense":
                 c.attr(color='white')
                 c.attr(rank='same')
-                #If hidden_layers[i] > 10, dont include all
+                # If hidden_layers[i] > 10, dont include all
                 the_label = ""
                 if model.layers[i].output_shape[1] > 10:
                     the_label += " (+"+str(model.layers[i].output_shape[1] - 10)+")"
@@ -139,7 +140,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 for j in range(0, hidden_layers[i]):
                     n += 1
                     c.node(str(n), shape="circle", style="filled", color="#3498db", fontcolor="#3498db")
-                    for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                    for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                         g.edge(str(h), str(n))
                 last_layer_nodes = hidden_layers[i]
                 nodes_up += hidden_layers[i]
@@ -151,7 +152,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 c.node("conv_"+str(n), label="Convolutional Layer\nKernel Size: "+kernel_size+"\nFilters: "+filters, shape="square")
                 c.node(str(n), label=filters+"\nFeature Maps", shape="square")
                 g.edge("conv_"+str(n), str(n))
-                for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                     g.edge(str(h), "conv_"+str(n))
                 last_layer_nodes = 1
                 nodes_up += 1
@@ -160,7 +161,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 n += 1
                 pool_size = str(model.layers[i].get_config()['pool_size'][0]) + "x" + str(model.layers[i].get_config()['pool_size'][1])
                 c.node(str(n), label="Max Pooling\nPool Size: "+pool_size, style="filled", fillcolor="#8e44ad", fontcolor="white")
-                for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                     g.edge(str(h), str(n))
                 last_layer_nodes = 1
                 nodes_up += 1
@@ -168,7 +169,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 n += 1
                 c.attr(color="white")
                 c.node(str(n), label="Flattening", shape="invtriangle", style="filled", fillcolor="#2c3e50", fontcolor="white")
-                for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                     g.edge(str(h), str(n))
                 last_layer_nodes = 1
                 nodes_up += 1
@@ -176,7 +177,7 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 n += 1
                 c.attr(color="white")
                 c.node(str(n), label="Dropout Layer", style="filled", fontcolor="white", fillcolor="#f39c12")
-                for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                     g.edge(str(h), str(n))
                 last_layer_nodes = 1
                 nodes_up += 1
@@ -185,11 +186,10 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
                 c.attr(color="white")
                 fnc = model.layers[i].get_config()['activation']
                 c.node(str(n), shape="octagon", label="Activation Layer\nFunction: "+fnc, style="filled", fontcolor="white", fillcolor="#00b894")
-                for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                     g.edge(str(h), str(n))
                 last_layer_nodes = 1
                 nodes_up += 1
-
 
     with g.subgraph(name='cluster_output') as c:
         if type(model.layers[-1]) == Dense:
@@ -199,12 +199,12 @@ def ann_viz(model, view=True, filename="network.gv", title="My Neural Network"):
             for i in range(1, output_layer+1):
                 n += 1
                 c.node(str(n), shape="circle", style="filled", color="#e74c3c", fontcolor="#e74c3c")
-                for h in range(nodes_up - last_layer_nodes + 1 , nodes_up + 1):
+                for h in range(nodes_up - last_layer_nodes + 1, nodes_up + 1):
                     g.edge(str(h), str(n))
             c.attr(label='Output Layer', labelloc="bottom")
             c.node_attr.update(color="#2ecc71", style="filled", fontcolor="#2ecc71", shape="circle")
 
     g.attr(arrowShape="none")
     g.edge_attr.update(arrowhead="none", color="#707070")
-    if view == True:
+    if view:
         g.view()
