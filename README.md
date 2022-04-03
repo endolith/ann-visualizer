@@ -71,7 +71,7 @@ network.add(Dense(units=1,
 
 from ann_visualizer.visualize import ann_viz
 
-ann_viz(network, title="")
+ann_viz(network, title="", view=True)
 ```
 
 This will output:
@@ -132,7 +132,7 @@ def build_cnn_model():
 
 
 model = build_cnn_model()
-ann_viz(model, title="")
+ann_viz(model, title="", view=True)
 ```
 
 This will output:
