@@ -129,7 +129,7 @@ def ann_viz(model, view=False, filename="network.gv", title="My Neural Network")
             raise ValueError("ANN Visualizer: Layer not supported for visualizing")
     for i in range(0, hidden_layers_nr):
         with g.subgraph(name="cluster_"+str(i+1)) as c:
-            if layer_types[i] == "Dense" and i != 0:
+            if layer_types[i] == "Dense":
                 c.attr(color='white')
                 c.attr(rank='same')
                 # If hidden_layers[i] > 10, dont include all
