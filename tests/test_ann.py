@@ -20,4 +20,4 @@ network.add(Dense(units=1,
 
 from ann_visualizer.visualize import ann_viz
 
-ann_viz(network, title="")
+ann_viz(network, title="", view=True)
