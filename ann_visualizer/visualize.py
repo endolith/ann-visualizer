@@ -47,44 +47,44 @@ def ann_viz(model, view=False, filename="network.gv", title="My Neural Network")
         if layer == model.layers[0]:
             input_layer = layer.input_shape[1]
             hidden_layers_nr += 1
-            if type(layer) == Dense:
+            if isinstance(layer, Dense):
                 hidden_layers.append(layer.output_shape[1])
                 layer_types.append("Dense")
             else:
                 hidden_layers.append(1)
-                if type(layer) == Conv2D:
+                if isinstance(layer, Conv2D):
                     layer_types.append("Conv2D")
-                elif type(layer) == MaxPooling2D:
+                elif isinstance(layer, MaxPooling2D):
                     layer_types.append("MaxPooling2D")
-                elif type(layer) == Dropout:
+                elif isinstance(layer, Dropout):
                     layer_types.append("Dropout")
-                elif type(layer) == Flatten:
+                elif isinstance(layer, Flatten):
                     layer_types.append("Flatten")
-                elif type(layer) == Activation:
+                elif isinstance(layer, Activation):
                     layer_types.append("Activation")
         else:
             if layer == model.layers[-1]:
                 output_layer = layer.output_shape[1]
             else:
                 hidden_layers_nr += 1
-                if type(layer) == Dense:
+                if isinstance(layer, Dense):
                     hidden_layers.append(layer.output_shape[1])
                     layer_types.append("Dense")
                 else:
                     hidden_layers.append(1)
-                    if type(layer) == Conv2D:
+                    if isinstance(layer, Conv2D):
                         layer_types.append("Conv2D")
-                    elif type(layer) == MaxPooling2D:
+                    elif isinstance(layer, MaxPooling2D):
                         layer_types.append("MaxPooling2D")
-                    elif type(layer) == Dropout:
+                    elif isinstance(layer, Dropout):
                         layer_types.append("Dropout")
-                    elif type(layer) == Flatten:
+                    elif isinstance(layer, Flatten):
                         layer_types.append("Flatten")
-                    elif type(layer) == Activation:
+                    elif isinstance(layer, Activation):
                         layer_types.append("Activation")
         last_layer_nodes = input_layer
         nodes_up = input_layer
-        if type(model.layers[0]) != Dense:
+        if not isinstance(model.layers[0], Dense):
             last_layer_nodes = 1
             nodes_up = 1
             input_layer = 1
@@ -94,7 +94,7 @@ def ann_viz(model, view=False, filename="network.gv", title="My Neural Network")
     g.graph_attr.update(splines="false", nodesep='1', ranksep='2')
     # Input Layer
     with g.subgraph(name='cluster_input') as c:
-        if type(model.layers[0]) == Dense:
+        if isinstance(model.layers[0], Dense):
             the_label = title+'\n\n\n\nInput Layer'
             if model.layers[0].input_shape[1] > 10:
                 the_label += " (+"+str(model.layers[0].input_shape[1] - 10)+")"
@@ -107,7 +107,7 @@ def ann_viz(model, view=False, filename="network.gv", title="My Neural Network")
                 c.attr(rank='same')
                 c.node_attr.update(color="#2ecc71", style="filled", fontcolor="#2ecc71", shape="circle")
 
-        elif type(model.layers[0]) == Conv2D:
+        elif isinstance(model.layers[0], Conv2D):
             # Conv2D Input visualizing
             the_label = title+'\n\n\n\nInput Layer'
             c.attr(color="white", label=the_label)
@@ -193,7 +193,7 @@ def ann_viz(model, view=False, filename="network.gv", title="My Neural Network")
                 nodes_up += 1
 
     with g.subgraph(name='cluster_output') as c:
-        if type(model.layers[-1]) == Dense:
+        if isinstance(model.layers[-1], Dense):
             c.attr(color='white')
             c.attr(rank='same')
             c.attr(labeljust="1")
